@@ -4,20 +4,21 @@ classdef krustalKlasse
     
     properties
         anzahlVonEcken;
-        anzahlVonKanten;
     end
    
     methods
-        function obj = untitled2(inputArg1,inputArg2)
-            %UNTITLED2 Construct an instance of this class
-            %   Detailed explanation goes here
-            obj.Property1 = inputArg1 + inputArg2;
-        end
-        
-        function outputArg = method1(obj,inputArg)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            outputArg = obj.Property1 + inputArg;
+        function obj = krustalKlasse(n)
+            if nargin == 1
+                if isnumeric(n)
+                    obj.anzahlVonEcken = n;
+                else
+                    error('Die Anzahl von Ecken sind doch naturliche Zahlen!');
+                end
+            elseif nargin == 0
+                obj.anzahlVonEcken = input('Anzahl von Ecken: ');
+            else
+                error('Nur eine Zahl ist fuer den Algorithmus vorausgesetzt!')
+            end
         end
     end
 end
