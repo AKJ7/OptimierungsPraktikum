@@ -21,7 +21,7 @@ classdef krustalKlasse
                   prompt = 'Geben Sie die Anzahl von Ecken ein: ';
                   title = 'Eingabe';
                   dims = [1 35];
-                  definput = {'20'};
+                  definput = {'4'};
                   n = inputdlg(prompt, title, dims, definput);
                   n = str2num(n{1});
               end 
@@ -36,11 +36,28 @@ classdef krustalKlasse
         end
         
         function M = adjazentenMatrix(obj)
-            prompt = {'1<->2', '2<->3', '3<->1'};
-            title = 'AdjanzentMatrix';
-            dims = [1 5; 1 5; 1 5];
+            kantenListe = {};
+            boxGroesseListe = [];
+            a = 1;
+            while (a <= obj.anzahlVonEcken)
+                b = 1;
+                while (b <= obj.anzahlVonEcken)
+                    if (b > a)
+                        kantenListe{end+1} = string(a)+'<->'+string(b);
+                    end
+                    b = b + 1;
+                end
+                a = a + 1;
+            end
+            c = 0;
+            while (c < length(kantenListe))
+                boxGroesseListe = [boxGroesseListe; [1 5]];
+                c = c + 1;
+            end
+            
+            title = 'Gewichte';
             opts.Resize = 'on';
-            M = inputdlg(prompt, title, dims, {'1', '2', '2'}, opts);
+            M = inputdlg({''}, title, boxGroesseListe);
         end
         
         
