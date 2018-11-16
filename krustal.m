@@ -5,8 +5,9 @@ classdef Krustal
         anzahlVonEcken = 0;
         adjazentenMatrix = [];
         gewichtsVektor = [];
-        graph = [];
+        graphen = [];
         output = [];
+        anzeige = 0;
     end
     
     methods
@@ -26,9 +27,9 @@ classdef Krustal
          
            obj.adjazentenMatrix = adjazentenMatrixCheck(obj);
            obj.gewichtsVektor = gewichtsVektorCheck(obj);
-           obj.graph = graphMatrix(obj);
+           obj.graphen = graphMatrix(obj);
            obj.output = algorithmus(obj);
-           
+           obj.anzeige = graphDarstellung(obj);
         end
         
         function anzahlVonEcken = anzahlVonEckenCheck(obj)
@@ -103,8 +104,8 @@ classdef Krustal
             while (a <= obj.anzahlVonEcken)
                 b = 1;
                 while (b <= obj.anzahlVonEcken)
-                    if (obj.graph(a, b) ~= 0)
-                        resultat{end + 1} = [obj.graph(a, b), a, b];
+                    if (obj.graphen(a, b) ~= 0)
+                        resultat{end + 1} = [obj.graphen(a, b), a, b];
                     end
                     b = b + 1;
                 end
@@ -131,13 +132,22 @@ classdef Krustal
                     r = r + 1;
                 end
             end
-            
-            
-            
+        end
+        
+        function resultat = graphDarstellung(obj)   
+            alphabet = 'abcdefghijklmnopqrstuvwxyz';
+            counter = 1;
+            title = {};
+            while (counter <= length(obj.adjazentenMatrix))
+                title{end + 1} = alphabet(counter);
+                counter = counter + 1;
+            end
+            resultat = graph(obj.adjazentenMatrix, title);
+            plot(resulat);
         end
         
         function delete(obj)
-            
+            disp('Schluss!');
         end
     end
 end
