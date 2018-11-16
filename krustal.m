@@ -42,10 +42,32 @@ classdef Krustal
            if size(adjazentenMatrix) ~= obj.anzahlVonEcken
                 error('Die groesse der eingegebenen Matrix stimmt nicht mit der Anzahl der Ecken nicht ueberein.\nErwartet: %dx%d-Matrix', obj.anzahlVonEcken, obj.anzahlVonEcken);
            end
+           if ~issymmetric(adjazentenMatrix)
+               error('Humm! Sind Adjazentenmatrizen fuer ungerichtete Graphen nicht symmetrisch?');
+           end
+           a = 1;
+           while (a <= obj.anzahlVonEcken)
+               b = 1;
+               while (b <= obj.anzahlVonEcken)
+                   if (adjazentenMatrix(a, b)~=0 && adjazentenMatrix(a, b) ~= 1)
+                       error('AdjazentenMatrizen enthalten nur Eintraege aus {0, 1}. Fehler an (%d, %d)', a, b);
+                   end
+                   b = b + 1;
+               end
+               a = a + 1;
+           end
+           a = 1;
+           while (a <= obj.anzahlVonEcken)
+               if (adjazentenMatrix(a, a) ~= 0)
+                   error('Kein Kreis erlaubt an der Stelle (%d, %d)', a, a);
+               end
+               a = a + 1;
+           end
+          
         end
         
         function gewichtsVektor = gewichtsVektorCheck(obj)
-           gewichtsVektor = input('GewichtsVektor eingeben [-1 falls keine Verbindungen existieren]: ');
+           gewichtsVektor = input('GewichtsVektor eingeben: ');
            erwarteteLaenge = 0.5 * obj.anzahlVonEcken*(obj.anzahlVonEcken + 1) - obj.anzahlVonEcken;
            gewichtsVektorsGroesse = size(gewichtsVektor);
            if (gewichtsVektorsGroesse(1, 1) ~= erwarteteLaenge || gewichtsVektorsGroesse(1, 2) ~= 1)
@@ -54,6 +76,8 @@ classdef Krustal
         end
         
         function resultat = algorithmus(obj)
+            
+            
             
             
             resultat = 2;
