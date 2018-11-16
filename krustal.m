@@ -5,6 +5,7 @@ classdef Krustal
         anzahlVonEcken = 0;
         adjazentenMatrix = [];
         gewichtsVektor = [];
+        graph = [];
         output = [];
     end
     
@@ -25,8 +26,8 @@ classdef Krustal
          
            obj.adjazentenMatrix = adjazentenMatrixCheck(obj);
            obj.gewichtsVektor = gewichtsVektorCheck(obj);
+           obj.graph = graphMatrix(obj);
            obj.output = algorithmus(obj);
-           
            
         end
         
@@ -70,20 +71,73 @@ classdef Krustal
            gewichtsVektor = input('GewichtsVektor eingeben: ');
            erwarteteLaenge = 0.5 * obj.anzahlVonEcken*(obj.anzahlVonEcken + 1) - obj.anzahlVonEcken;
            gewichtsVektorsGroesse = size(gewichtsVektor);
-           if (gewichtsVektorsGroesse(1, 1) ~= erwarteteLaenge || gewichtsVektorsGroesse(1, 2) ~= 1)
+           if (gewichtsVektorsGroesse(2) ~= erwarteteLaenge || gewichtsVektorsGroesse(1) ~= 1)
               error('Fehler mit dem GewichtsVektor! Erwartet: %dx1-Vektor', gewichtsVektorsGroesse(1, 1));
            end
         end
         
+        function resultat = graphMatrix(obj)
+            resultat = zeros(obj.anzahlVonEcken);
+            a = 1;
+            c = 1;
+            while (a <= obj.anzahlVonEcken)
+                b = 1;
+                while (b <= obj.anzahlVonEcken)
+                    if (b > a)
+                        resultat(a, b) = obj.adjazentenMatrix(a, b) * obj.gewichtsVektor(c);
+                        c = c + 1;
+                    end
+                    b = b + 1;
+                end
+                a = a + 1;
+            end
+        end
+        
         function resultat = algorithmus(obj)
+            resultat = {};
+            a = 1;
+            temp = 0;
+            r = 1;
+            gleich = 1;
+            
+            while (a <= obj.anzahlVonEcken)
+                b = 1;
+                while (b <= obj.anzahlVonEcken)
+                    if (obj.graph(a, b) ~= 0)
+                        resultat{end + 1} = [obj.graph(a, b), a, b];
+                    end
+                    b = b + 1;
+                end
+                a = a + 1;
+            end
+            
+            %%%     SORTIEREN
+            
+            while 1
+                if (gleich == length(resultat))
+                    break
+                end
+                r = 1;
+                gleich = 1;
+                while (r < length(resultat))
+                    if (resultat{r}(1) > resultat{r+1}(1))
+                        disp(resultat{r}(1));
+                        temp = resultat{r};
+                        resultat{r} = resultat{r+1};
+                        resultat{r+1} = temp;
+                    else
+                        gleich = gleich + 1;
+                    end
+                    r = r + 1;
+                end
+            end
             
             
             
-            
-            resultat = 2;
         end
         
         function delete(obj)
+            
         end
     end
 end
