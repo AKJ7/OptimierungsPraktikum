@@ -1,10 +1,12 @@
-A = [0 1 1; 1 0 1; 1 1 0];
+A = [0 0 1 1 0; 0 0 0 1 1; 1 0 0 1 0; 1 0 1 0 0; 0 1 0 0 0];
+%A = [0 1 1; 1 0 1; 1 1 0];
+%A = [0 1 0 1; 1 0 1 0; 0 1 0 1; 1 0 1 0];
 a = 1;
 B = {};
 while a <= length(A)
     b = 1;
     while (b <= length(A))
-        if b > a
+        if b > a && A(a, b) ~= 0
             B{end + 1} = [a, b];
         end
         b = b + 1; 
@@ -12,22 +14,48 @@ while a <= length(A)
     a = a + 1;
 end
 
+C = B;
+
 counter = 1;
-zaehler = 1;
-D = B;
 while 1
     zaehler = 1;
-    while (zaehler <= length(B))
-        counter = 1;
-        if (B{counter}(2) == B{zaehler}(1))
-            temp = [B{counter}(1), B{zaehler}(2)];
-            B(zaehler) = [];
-            B(counter) = [];
-            
-            B{end + 1} = temp;
-            disp('Found');
-        end
-        zaehler = zaehler + 1;
-    end
-    break;
+    %disp([C{counter}, counter]);
+    while zaehler < length(C) && counter <= length(C)
+       zaehler = zaehler + 1;
+      if C{counter}(1) == C{zaehler}(2)
+          C{counter} = [C{zaehler}(1), C{counter}(2)];
+          C(zaehler) = [];
+          disp('First if');
+          break;
+      elseif C{counter}(2) == C{zaehler}(1)
+          C{counter} = [C{counter}(1), C{zaehler}(2)];
+          C(zaehler) = [];
+          disp('Second if');
+          break;
+      elseif C{counter}(1) == C{zaehler}(1)
+          C{counter} = [C{counter}(2), C{zaehler}(2)];
+          disp([C{counter}, counter]);
+          C(zaehler) = [];
+          disp('Third if');
+          break;
+      elseif C{counter}(2) == C{zaehler}(2)
+          C{counter} = [C{counter}(1), C{zaehler}(1)];
+          C(zaehler) = [];
+          disp('Fourth if');
+          break;
+      else
+          counter = counter + 1;
+      end
+   end
+   if counter >= length(C)
+       break;
+   end
+   if (zaehler == length(C))
+       %counter = counter + 1;
+   end
+end
+if (C{1}(1) == C{1}(2))
+    disp('Kreis gefunden!');
+else
+    disp('Kein Kreis gefunden');
 end

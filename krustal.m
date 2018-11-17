@@ -30,6 +30,7 @@ classdef Krustal
            obj.graphen = graphMatrix(obj);
            obj.output = algorithmus(obj);
            obj.anzeige = graphDarstellung(obj);
+           a = kreisCheck(obj, {[1 3], [1 4], [2 4], [2 5], [3 4]});
         end
         
         function anzahlVonEcken = anzahlVonEckenCheck(obj)
@@ -145,6 +146,50 @@ classdef Krustal
             resultat = graph(obj.adjazentenMatrix, title);
             plot(resultat);
         end
+        
+        function output = kreisCheck(obj, kanten)
+            current = 1;
+            counter = 1;
+
+            while counter <= length(kanten)
+                if counter ~= current
+                    if kanten{current}(2) == kanten{counter}(1)
+                        kanten{current} = [kanten{current}(1), kanten{counter}(2)];
+                        kanten(counter) = [];
+                        if (length(kanten) == 1)
+                           output = kanten;
+                           return;
+                        else
+                            kanten = kreisCheck(obj, kanten);
+                        end
+                    elseif kanten{current}(2) == kanten{counter}(2)
+                        kanten{current} = [kanten{current}(1), kanten{counter}(1)];
+                        kanten(counter) = [];
+                        if (length(kanten) == 1)
+                            output = kanten;
+                            return;
+                        else
+                            kanten = kreisCheck(obj, kanten);
+                        end
+                    end
+                end
+                counter = counter + 1;
+            end
+
+            zaehler = 1;
+
+            while zaehler <= length(kanten)
+                if (kanten{zaehler}(1) == kanten{zaehler}(2))
+                    output = {[0, 0]};
+                    return;
+                end
+                zaehler = zaehler + 1;
+            end
+
+            output = kanten;
+        end
+        
+        
         
         function delete(obj)
             disp('Ende des Algorithmus!');
