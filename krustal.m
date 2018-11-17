@@ -143,11 +143,11 @@ classdef Krustal
                 counter = counter + 1;
             end
             resultat = graph(obj.adjazentenMatrix, title);
-            plot(resulat);
+            plot(resultat);
         end
         
         function delete(obj)
-            disp('Schluss!');
+            disp('Ende des Algorithmus!');
         end
     end
 end
