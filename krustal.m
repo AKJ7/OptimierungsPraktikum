@@ -8,6 +8,7 @@ classdef Krustal
         graphen = [];
         output = [];
         anzeige = 0;
+        loesung = {};
     end
     
     methods
@@ -30,7 +31,6 @@ classdef Krustal
            obj.graphen = graphMatrix(obj);
            obj.output = algorithmus(obj);
            obj.anzeige = graphDarstellung(obj);
-           a = hatKreis(obj, {[1 3], [1 4], [2 4], [2 5], [3 4]});
         end
         
         function anzahlVonEcken = anzahlVonEckenCheck(obj)
@@ -95,6 +95,7 @@ classdef Krustal
             end
         end
         
+        
         function resultat = algorithmus(obj)
             resultat = {};
             a = 1;
@@ -123,7 +124,6 @@ classdef Krustal
                 gleich = 1;
                 while (r < length(resultat))
                     if (resultat{r}(1) > resultat{r+1}(1))
-                        disp(resultat{r}(1));
                         temp = resultat{r};
                         resultat{r} = resultat{r+1};
                         resultat{r+1} = temp;
@@ -138,30 +138,48 @@ classdef Krustal
             C = resultat;
             counter = 1;
             
-%             zusammenhaengend = {};
-%             test = {};
-%             while counter <= length(resultat)
-%                 test = zummanhaengend;
-%                 test{end + 1} = [C{counter}(2), C{counter}(3)];
-%                 
-%                 if kreisCheck(obj, test)
-%                     
-%                 end
-%                 counter = counter + 1;
-%             end
+            test = {};
+            zusammenhaengend = {};
+            resultat = {};
+            
+            while counter <= length(C)
+             %while counter < obj.anzahlVonEcken  
+                zusammenhaengend{end + 1} = [C{counter}(2), C{counter}(3)];
+                if (hatKreis(obj, zusammenhaengend) == 1)
+%                     disp(zusammenhaengend{end});
+                    zusammenhaengend(end) = [];
+                else
+                    resultat{end + 1} = C{counter};
+                end
+                if (length(resultat) == obj.anzahlVonEcken - 1)
+                    break;
+                end
+                counter = counter + 1;
+            end
         end
         
         
         function resultat = graphDarstellung(obj)   
-            alphabet = 'abcdefghijklmnopqrstuvwxyz';
+            s = [];
+            t = [];
+            gewichte = [];
+            counter = 1;
+            while counter <= length(obj.output)
+               gewichte(end + 1) = obj.output{counter}(1); 
+               s(end + 1) = obj.output{counter}(2);
+               t(end + 1) = obj.output{counter}(3);
+               counter = counter + 1;
+            end
+            alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             counter = 1;
             title = {};
             while (counter <= length(obj.adjazentenMatrix))
+            %while (counter < obj.anzahlVonEcken)
                 title{end + 1} = alphabet(counter);
                 counter = counter + 1;
             end
-            resultat = graph(obj.adjazentenMatrix, title);
-            plot(resultat);
+            resultat = graph(s, t, gewichte, title);
+            plot(resultat,'EdgeLabel',resultat.Edges.Weight);
         end
         
         

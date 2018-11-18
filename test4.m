@@ -1,25 +1,4 @@
+A = [0 1 1 1 1 0 0; 1 0 1 0 0 1 0; 1 1 0 0 1 1 0; 1 0 0 0 1 0 1; 1 0 1 1 0 1 1; 0 1 1 0 1 0 1; 0 0 0 1 1 1 0];
+b = [16 22 20 29 0 0 28 0 0 31 0 0 23 32 0 35 0 25 15 12 18];
 
-A = [0 1 0 1; 1 0 1 0; 0 1 0 1; 1 0 1 0];
-
-while a <= length(A)
-    b = 1;
-    while (b <= length(A))
-        if b > a && A(a, b) ~= 0
-            B{end + 1} = [a, b];
-        end
-        b = b + 1; 
-    end
-    a = a + 1;
-end
-
-
-disp(zusammenhaengend(B));
-
-function output = zusammenhaengend(kante)
-
-    
-
-    output = 1;
-
-
-end
+output = {[12 5 7]  [15 5 6]  [16 1 2]  [20 1 4]  [22 1 3]  [23 3 5]  [25 4 7]  [28 2 3]  [29 1 5]  [31 2 6]  [32 3 6]  [35 4 5]};
