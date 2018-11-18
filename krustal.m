@@ -30,7 +30,7 @@ classdef Krustal
            obj.graphen = graphMatrix(obj);
            obj.output = algorithmus(obj);
            obj.anzeige = graphDarstellung(obj);
-           a = kreisCheck(obj, {[1 3], [1 4], [2 4], [2 5], [3 4]});
+           a = hatKreis(obj, {[1 3], [1 4], [2 4], [2 5], [3 4]});
         end
         
         function anzahlVonEcken = anzahlVonEckenCheck(obj)
@@ -133,7 +133,24 @@ classdef Krustal
                     r = r + 1;
                 end
             end
+            
+            
+            C = resultat;
+            counter = 1;
+            
+%             zusammenhaengend = {};
+%             test = {};
+%             while counter <= length(resultat)
+%                 test = zummanhaengend;
+%                 test{end + 1} = [C{counter}(2), C{counter}(3)];
+%                 
+%                 if kreisCheck(obj, test)
+%                     
+%                 end
+%                 counter = counter + 1;
+%             end
         end
+        
         
         function resultat = graphDarstellung(obj)   
             alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -146,6 +163,8 @@ classdef Krustal
             resultat = graph(obj.adjazentenMatrix, title);
             plot(resultat);
         end
+        
+        
         
         function output = kreisCheck(obj, kanten)
             current = 1;
@@ -189,6 +208,14 @@ classdef Krustal
             output = kanten;
         end
         
+        function output = hatKreis(obj, kantenListe)
+           ruckgabe = kreisCheck(obj, kantenListe);
+           if (ruckgabe{1}(1) == ruckgabe{1}(2))
+               output = 1;
+           else
+               output = 0;
+           end
+        end
         
         
         function delete(obj)

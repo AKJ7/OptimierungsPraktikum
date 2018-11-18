@@ -1,7 +1,7 @@
 %A = [0 0 1 1 0; 0 0 0 1 1; 1 0 0 1 0; 1 0 1 0 0; 0 1 0 0 0];
 %A = [0 1 1; 1 0 1; 1 1 0];
-A = [0 1 0 1; 1 0 1 0; 0 1 0 1; 1 0 1 0];
-%A = [0 1 0; 1 0 0; 0 0 0];
+%A = [0 1 0 1; 1 0 1 0; 0 1 0 1; 1 0 1 0];
+A = [0 1 0; 1 0 0; 0 0 0];
 a = 1;
 B = {};
 while a <= length(A)
@@ -16,7 +16,13 @@ while a <= length(A)
 end
 
 C = B;
+
 D = kreisCheck(C);
+if (kreisCheck{1}(1) == kreisCheck{1}(2))
+    disp(1);
+else
+    disp(0);
+end
 
 function output = kreisCheck(kanten)
     current = 1;
